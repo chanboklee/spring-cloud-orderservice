@@ -1,11 +1,11 @@
-package com.lee.orderservice.request;
+package com.lee.orderservice.vo;
 
 import lombok.Data;
 
 @Data
 public class RequestOrder {
 
-    private String orderId;
+    private String productId;
     private Integer qty;
     private Integer unitPrice;
 }

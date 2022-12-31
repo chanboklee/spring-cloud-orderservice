@@ -1,6 +1,7 @@
 package com.lee.orderservice.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.lee.orderservice.domain.OrderEntity;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -15,4 +16,12 @@ public class ResponseOrder {
     private LocalDateTime createdAt;
 
     private String orderId;
+
+    public ResponseOrder(OrderEntity orderEntity){
+        this.productId = orderEntity.getProductId();
+        this.qty = orderEntity.getQty();
+        this.unitPrice = orderEntity.getUnitPrice();
+        this.totalPrice = orderEntity.getTotalPrice();
+        this.orderId = orderEntity.getOrderId();
+    }
 }

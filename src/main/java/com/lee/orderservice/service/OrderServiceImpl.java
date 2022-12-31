@@ -2,7 +2,7 @@ package com.lee.orderservice.service;
 
 import com.lee.orderservice.domain.OrderEntity;
 import com.lee.orderservice.repository.OrderRepository;
-import com.lee.orderservice.request.RequestOrder;
+import com.lee.orderservice.vo.RequestOrder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,11 +18,15 @@ public class OrderServiceImpl implements OrderService{
     private final OrderRepository orderRepository;
 
     @Override
-    public OrderEntity createOrder(RequestOrder requestOrder) {
+    public OrderEntity createOrder(RequestOrder requestOrder, String userId) {
 
         OrderEntity orderEntity = OrderEntity.builder()
-                .orderId(UUID.randomUUID().toString())
+                .productId(requestOrder.getProductId())
+                .qty(requestOrder.getQty())
+                .unitPrice(requestOrder.getUnitPrice())
                 .totalPrice(requestOrder.getQty() * requestOrder.getUnitPrice())
+                .userId(userId)
+                .orderId(UUID.randomUUID().toString())
                 .build();
 
         orderRepository.save(orderEntity);
