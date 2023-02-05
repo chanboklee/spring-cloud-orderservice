@@ -2,6 +2,7 @@ package com.lee.orderservice.controller;
 
 import com.lee.orderservice.domain.OrderEntity;
 import com.lee.orderservice.dto.OrderDto;
+import com.lee.orderservice.messagequeue.KafkaProducer;
 import com.lee.orderservice.vo.RequestOrder;
 import com.lee.orderservice.service.OrderService;
 import com.lee.orderservice.vo.ResponseOrder;
@@ -21,6 +22,7 @@ public class OrderController {
 
     private final OrderService orderService;
     private final Environment env;
+    private final KafkaProducer kafkaProducer;
 
     @GetMapping("/health-check")
     public String status(){
@@ -34,6 +36,9 @@ public class OrderController {
         OrderDto orderDto = OrderDto.builder()
                 .orderEntity(orderEntity)
                 .build();
+
+        /* send this order to the kafka */
+        kafkaProducer.send("example-catalog-topic", orderDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(orderDto);
     }
